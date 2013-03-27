@@ -1,0 +1,5 @@
+*_notes/
+*.DS_Store
+*dwsync.xml
+*dataconnection.php
+php/utils/dataconnector.php
