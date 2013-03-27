@@ -32,6 +32,7 @@ $(document).ready(function() {
 				  content += '<h4>'+genres[index].artists[index2].artist+'</h4>';
 				  content += '<img src="php/utils/get-artist-image.php?id='+index2+'" />';
 				  content += '</article>';
+				  content += showAlbums(index,index2);
 			 });
 			 }
     	     content += '</div>';
@@ -39,6 +40,17 @@ $(document).ready(function() {
   		content += '</div>';
 		$("#genredisplay").append(content);
 		$("#genredisplay div.tab-content div.tab-pane:first").addClass("active");
+	}
+	function showAlbums(genreID,artistID) {
+		var content = '<section class="albums span7">';
+		$.each( genres[genreID].artists[artistID].albums, function(index,value) {
+			content += '<article class="album">';
+			content += '<img class="tn" src="php/utils/get-album-image.php?id='+index+'" />';	
+			content += '<h5>'+value.album+'</h5>';	
+			content += '</article>';
+		});
+		content += '</section>';
+		return content;
 	}
 	var music = getMusic();
 	console.log(music);	
