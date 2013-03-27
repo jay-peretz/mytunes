@@ -7,7 +7,21 @@ if ($genres = $mysqli->query("SELECT * from genres"))  {
    if ($artists = $mysqli->query("select idartists , artist from artists where genres_idgenres = ".$genre->idgenres)) {
 	   while ($artist = $artists->fetch_object())
 	   {
-		   $musicarray[$genre->idgenres]->artists[$artist->idartists] = $artist;	   
+		   $musicarray[$genre->idgenres]->artists[$artist->idartists] = $artist;
+		   if ($albums = $mysqli->query("select idalbums , album from albums where artists_idartists = ".$artist->idartists)) {
+			   while ($album = $albums->fetch_object())
+			   {
+				   $musicarray[$genre->idgenres]->artists[$artist->idartists]->albums[$album->idalbums] = $album;
+				   if ($tracks = $mysqli->query("select * from tracks where albums_idalbums = ".$album->idalbums)) {
+					   while ($track = $tracks->fetch_object())
+					   {
+						   $musicarray[$genre->idgenres]->artists[$artist->idartists]->albums[$album->idalbums]->tracks[$track->idtracks] = $track;					   
+					   }
+					   $tracks->close();		   
+				   }					   
+			   }
+			   $albums->close();		   
+		   }	   
 	   }
 	   $artists->close();
    }
