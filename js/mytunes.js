@@ -11,7 +11,6 @@ $(document).ready(function() {
 	  return genres;
 	};
 	function showGenres() {
-		
 		var content = '<div id="genredisplay" class="tabbable">'; 
         content += '<ul class="nav nav-tabs">';
 		$.each(genres, function (index,value) {
@@ -33,12 +32,8 @@ $(document).ready(function() {
 				   music = getMusic();
 				   showGenres();
 				   $("#addgenre").modal("hide");
-				   $("#data-update").show();
 		  			});
 		});
-		$('ul.nav-tabs a[data-toggle="tab"]').on('shown', function (e) {
- 			$("#track").html("");
-		})		
 	}
 	function showArtists() {
 		var content = '<div class="tab-content">';
@@ -58,15 +53,11 @@ $(document).ready(function() {
   		content += '</div>';
 		$("#genredisplay").append(content);
 		$("#genredisplay div.tab-content div.tab-pane:first").addClass("active");
-		$("article.album").unbind('click');
-		$("article.album").click(function(e) {
-			showTracks($(this).attr('data-genreid'),$(this).attr('data-artistid'),$(this).attr('data-albumid'));
-		});
 	}
 	function showAlbums(genreID,artistID) {
 		var content = '<section class="albums span7">';
 		$.each( genres[genreID].artists[artistID].albums, function(index,value) {
-			content += '<article class="album" data-genreid='+genreID+' data-artistid='+artistID+' data-albumid='+index+'>';
+			content += '<article class="album">';
 			content += '<img class="tn" src="php/utils/get-album-image.php?id='+index+'" />';	
 			content += '<h5>'+value.album+'</h5>';	
 			content += '</article>';
@@ -74,17 +65,6 @@ $(document).ready(function() {
 		content += '</section>';
 		return content;
 	}
-	function showTracks(genreID,artistID,albumID) {
-		if (music[genreID].artists[artistID].albums[albumID].tracks) {
-			var content = '<section data-genreid='+genreID+' data-artistid='+artistID+' data-albumid='+albumID+' class="tracks span12">';
-			$.each(music[genreID].artists[artistID].albums[albumID].tracks,function(index,value) {
-				content += '<article data-trackid='+index+'>'+value.track+'</article>';
-			});
-			content += "</section>";
-			$("#track").html(content);
-		}
-	}
-	$("#data-update").hide();
 	var music = getMusic();
 	console.log(music);	
 	showGenres();  
