@@ -16,24 +16,11 @@ $(document).ready(function() {
 		$.each(genres, function (index,value) {
 			content += '<li><a href="#genre'+genres[index].idgenres+'" data-toggle="tab">'+genres[index].genre+'</a></li>';
 		});  
-		content += '<li><a href="#addgenre" data-toggle="modal"><i class="icon-plus"></i></a></li>'; 
-        content += '</ul>';  		     
+        content += '</ul>';       
 		content += '</div>';
 		$("#genre").html(content);
 		$("#genredisplay ul li:first").addClass("active");
 		showArtists();
-		$("#newgenre").unbind("click");
-		$("#newgenre").click(function() {
-		$.ajax({
-		   type: "POST",
-		   data: {genre:$("#newgenrename").text()},
-		   url: "php/new-genre.php"
-		  		}).done(function(data) {
-				   music = getMusic();
-				   showGenres();
-				   $("#addgenre").modal("hide");
-		  			});
-		});
 	}
 	function showArtists() {
 		var content = '<div class="tab-content">';
