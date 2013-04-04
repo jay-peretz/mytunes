@@ -10,8 +10,7 @@ $(document).ready(function() {
 	  });
 	  return genres;
 	};
-	function showGenres() {
-		
+	function showGenres() {		
 		var content = '<div id="genredisplay" class="tabbable">'; 
         content += '<ul class="nav nav-tabs">';
 		$.each(genres, function (index,value) {
@@ -47,7 +46,7 @@ $(document).ready(function() {
 			 if (genres[index].artists) {
 			 $.each(genres[index].artists, function (index2, value2) { 
 			      content += '<article class="span4 hero-unit">';
-				  content += '<h4>'+genres[index].artists[index2].artist+'</h4>';
+				  content += '<h2>'+genres[index].artists[index2].artist+'</h2>';
 				  content += '<img src="php/utils/get-artist-image.php?id='+index2+'" />';
 				  content += '</article>';
 				  content += showAlbums(index,index2);
@@ -76,15 +75,38 @@ $(document).ready(function() {
 	}
 	function showTracks(genreID,artistID,albumID) {
 		if (music[genreID].artists[artistID].albums[albumID].tracks) {
-			var content = '<section data-genreid='+genreID+' data-artistid='+artistID+' data-albumid='+albumID+' class="tracks span12">';
+			var content = '<section class="tracks span12">';
+		    content += '<h3>Tracks&nbsp;<a  data-genreid='+genreID+' data-artistid='+artistID+' data-albumid='+albumID+'  id="plustrack"><i class="icon-plus"></i></a></h3>';
 			$.each(music[genreID].artists[artistID].albums[albumID].tracks,function(index,value) {
 				content += '<article data-trackid='+index+'>'+value.track+'</article>';
 			});
 			content += "</section>";
 			$("#track").html(content);
+			$("#plustrack").click(function() {
+				$("#addtrack").modal("show");
+				$("#newtrack").attr("data-albumid", $(this).attr('data-albumid'));
+				$("#newtrack").attr("data-artistid", $(this).attr('data-artistid'));
+				$("#newtrack").attr("data-genreid", $(this).attr('data-genreid'));
+				$("#data-update").show();
+			});
+		} else {
+			$("#track").html("");
 		}
 	}
+	$("#newtrack").click(function() {
+		$.ajax({
+       type: "POST",
+       url: "php/new-track.php",
+	   data : { albumid: $("#newtrack").attr("data-albumid"), track: $("#newtrackname").text()}
+      }).done(function(data) {
+		  var newtrack = {albums_idalbums: $("#newtrack").attr("data-albumid") , idtracks : data , track:$("#newtrackname").text() };
+		  music[$("#newtrack").attr("data-genreid")].artists[$("#newtrack").attr("data-artistid")].albums[$("#newtrack").attr("data-albumid")].tracks[data] = newtrack;
+		  $("#addtrack").modal("hide");
+		 showTracks($("#newtrack").attr("data-genreid"),$("#newtrack").attr("data-artistid"),$("#newtrack").attr("data-albumid"));
+	  });
+	});
 	$("#data-update").hide();
+	$("#addtrack").modal("hide");
 	var music = getMusic();
 	console.log(music);	
 	showGenres();  
