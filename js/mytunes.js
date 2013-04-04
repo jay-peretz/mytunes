@@ -63,6 +63,7 @@ $(document).ready(function() {
 		});
 	}
 	function showAlbums(genreID,artistID) {
+		if (genres[genreID].artists[artistID].albums) {
 		var content = '<section class="albums span7">';
 		$.each( genres[genreID].artists[artistID].albums, function(index,value) {
 			content += '<article class="album" data-genreid='+genreID+' data-artistid='+artistID+' data-albumid='+index+'>';
@@ -71,6 +72,9 @@ $(document).ready(function() {
 			content += '</article>';
 		});
 		content += '</section>';
+		} else {
+			content = "";
+		}
 		return content;
 	}
 	function showTracks(genreID,artistID,albumID) {
