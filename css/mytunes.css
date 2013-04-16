@@ -70,3 +70,6 @@ p[contenteditable] {
 	-webkit-box-shadow: 0 0 3px 3px#BBB;
 	box-shadow: 0 0 3px 3px #BBB;
 }
+.update-track , .delete-track {
+	cursor:pointer;
+}

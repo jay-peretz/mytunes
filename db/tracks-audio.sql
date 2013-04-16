@@ -1,0 +1,1 @@
+ALTER TABLE `jperetz`.`tracks` ADD COLUMN `url` VARCHAR(200) NULL  AFTER `track` ;

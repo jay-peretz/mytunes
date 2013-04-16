@@ -82,16 +82,34 @@ $(document).ready(function() {
 			var content = '<section class="tracks span12">';
 		    content += '<h3>Tracks&nbsp;<a  data-genreid='+genreID+' data-artistid='+artistID+' data-albumid='+albumID+'  id="plustrack"><i class="icon-plus"></i></a></h3>';
 			$.each(music[genreID].artists[artistID].albums[albumID].tracks,function(index,value) {
-				content += '<article data-trackid='+index+'>'+value.track+'</article>';
+				content += '<article class=span10  data-trackid=';
+				content += index;
+				content += '><p contenteditable class="span3 trackname">';	
+				content += value.track;			
+				content += '</p>';
+				content += '<p contenteditable class="span4 trackfile">';	
+				content += value.url;			
+				content += '</p>';
+				content += '<span class="label span1 update-track">Update</span><span class="label label-important span1 delete-track">Delete</span></article>';
 			});
 			content += "</section>";
 			$("#track").html(content);
+			$("#plustrack").unbind("click");
 			$("#plustrack").click(function() {
 				$("#addtrack").modal("show");
 				$("#newtrack").attr("data-albumid", $(this).attr('data-albumid'));
 				$("#newtrack").attr("data-artistid", $(this).attr('data-artistid'));
 				$("#newtrack").attr("data-genreid", $(this).attr('data-genreid'));
 				$("#data-update").show();
+			});
+			$(".update-track").unbind("click");
+			$(".update-track").click(function() {
+				alert("Update"+$(this).parent().attr("data-trackid"));
+			});
+			$(".delete-track").unbind("click");
+			$(".delete-track").click(function() {
+				alert("Delete"+$(this).parent().attr("data-trackid"));
+				
 			});
 		} else {
 			$("#track").html("");
