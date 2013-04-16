@@ -79,7 +79,7 @@ $(document).ready(function() {
 	}
 	function showTracks(genreID,artistID,albumID) {
 		if (music[genreID].artists[artistID].albums[albumID].tracks) {
-			var content = '<section class="tracks span12">';
+			var content = '<section  data-genreid='+genreID+' data-artistid='+artistID+' data-albumid='+albumID+'  class="tracks span12">';
 		    content += '<h3>Tracks&nbsp;<a  data-genreid='+genreID+' data-artistid='+artistID+' data-albumid='+albumID+'  id="plustrack"><i class="icon-plus"></i></a></h3>';
 			$.each(music[genreID].artists[artistID].albums[albumID].tracks,function(index,value) {
 				content += '<article class=span10  data-trackid=';
@@ -104,11 +104,11 @@ $(document).ready(function() {
 			});
 			$(".update-track").unbind("click");
 			$(".update-track").click(function() {
-				alert("Update"+$(this).parent().attr("data-trackid"));
+				alert("Update "+$(this).parent().parent().attr("data-albumid")+"  "+$(this).parent().attr("data-trackid"));
 			});
 			$(".delete-track").unbind("click");
 			$(".delete-track").click(function() {
-				alert("Delete"+$(this).parent().attr("data-trackid"));
+				alert("delete "+$(this).parent().parent().attr("data-albumid")+"  "+$(this).parent().attr("data-trackid"));
 				
 			});
 		} else {
