@@ -104,12 +104,14 @@ $(document).ready(function() {
 			});
 			$(".update-track").unbind("click");
 			$(".update-track").click(function() {
-				alert("Update "+$(this).parent().parent().attr("data-albumid")+"  "+$(this).parent().attr("data-trackid"));
+				genres[$(this).parent().parent().attr("data-genreid")].artists[$(this).parent().parent().attr("data-artistid")].albums[$(this).parent().parent().attr("data-albumid")].tracks[$(this).parent().attr("data-trackid")].track = $(this).parent().find(".trackname").text();
+				genres[$(this).parent().parent().attr("data-genreid")].artists[$(this).parent().parent().attr("data-artistid")].albums[$(this).parent().parent().attr("data-albumid")].tracks[$(this).parent().attr("data-trackid")].url = $(this).parent().find(".trackfile").text();				
+				showTracks($(this).parent().parent().attr("data-genreid"),$(this).parent().parent().attr("data-artistid"),$(this).parent().parent().attr("data-albumid"));
 			});
 			$(".delete-track").unbind("click");
 			$(".delete-track").click(function() {
-				alert("delete "+$(this).parent().parent().attr("data-albumid")+"  "+$(this).parent().attr("data-trackid"));
-				
+				delete genres[$(this).parent().parent().attr("data-genreid")].artists[$(this).parent().parent().attr("data-artistid")].albums[$(this).parent().parent().attr("data-albumid")].tracks[$(this).parent().attr("data-trackid")];
+		        showTracks($(this).parent().parent().attr("data-genreid"),$(this).parent().parent().attr("data-artistid"),$(this).parent().parent().attr("data-albumid"));
 			});
 		} else {
 			$("#track").html("");
